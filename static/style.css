@@ -1,0 +1,196 @@
+/* =================== ROOT VARIABLES =================== */
+:root {
+    --primary: #0f172a;
+    --accent: #3b82f6;
+    --bg: #f8fafc;
+    --card: #ffffff;
+}
+
+/* =================== BODY =================== */
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    margin: 0;
+    color: #1e293b;
+    display: block; /* removed flex to remove sidebar layout */
+}
+
+/* =================== MAIN CONTENT =================== */
+.main-content {
+    padding: 40px;
+    width: 100%; /* full width since no sidebar */
+    box-sizing: border-box;
+}
+
+/* =================== CARD =================== */
+.card {
+    background: var(--card);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
+    margin-bottom: 25px;
+}
+
+/* =================== GRID FOR ANALYSIS PAGE =================== */
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+/* =================== FORM INPUTS =================== */
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    margin-top: 5px;
+    box-sizing: border-box;
+}
+
+/* =================== BUTTONS =================== */
+button {
+    width: 100%;
+    padding: 15px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+}
+
+/* =================== DECISION BADGE =================== */
+.decision-badge {
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+}
+
+/* =================== FAQ SECTION =================== */
+.faq-section details {
+    background: #f8fafc;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+summary {
+    font-weight: 600;
+    list-style: none;
+}
+
+/* OTP SCREEN CARD */
+#otp-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* vertically center */
+    background: var(--bg);
+}
+
+#otp-screen .card {
+    width: 280px;     /* small card width */
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    text-align: center;
+}
+
+#otp-screen h1 {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+#otp-screen input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+#otp-screen button {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+    margin-top: 8px;
+    border-radius: 8px;
+}
+
+/* =================== RISK LEGEND =================== */
+.risk-legend { display: flex; gap: 20px; }
+.legend-item { flex: 1; padding: 15px; background: white; border-radius: 12px; border-left: 5px solid #ccc; }
+.legend-item h4 { margin: 0 0 5px 0; }
+.legend-item p { margin: 0; font-size: 13px; color: #64748b; }
+
+/* =================== RESULT VISUALS =================== */
+.visual-meter { position: relative; height: 250px; display: flex; justify-content: center; }
+.score-overlay { position: absolute; bottom: 40px; text-align: center; }
+#score-val { font-size: 54px; margin: 0; font-weight: 800; }
+#risk-status { font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 12px; }
+
+.risk-scale-graphic { margin-top: 20px; padding: 0 10px; }
+.scale-bar { height: 8px; background: linear-gradient(to right, #ef4444, #f59e0b, #22c55e); border-radius: 10px; position: relative; }
+.pointer { width: 4px; height: 20px; background: #000; position: absolute; top: -6px; transition: 1s ease-out; }
+.scale-labels { display: flex; justify-content: space-between; font-size: 11px; color: #94a3b8; margin-top: 8px; }
+
+/* =================== HISTORY TABLE =================== */
+#tab-history h1 {
+    font-size: 28px;
+    margin-bottom: 25px;
+    font-weight: 800;
+}
+
+#tab-history .card {
+    padding: 0;
+    overflow: hidden; /* table fills card */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead th {
+    text-align: left;
+    padding: 20px 25px;
+    background: #ffffff;
+    color: #94a3b8;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid #f1f5f9;
+}
+
+td {
+    padding: 18px 25px;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 15px;
+}
+
+/* Specific column styling */
+td:nth-child(1) { color: #1e293b; font-weight: 500; } 
+td:nth-child(2) { font-weight: 800; color: #0f172a; } 
+td:nth-child(3) { font-weight: 700; letter-spacing: 0.5px; } 
+td:nth-child(4) { color: #64748b; }
+
+tbody tr:hover { background-color: #f8fafc; }
+
+/* Decision status colors */
+.text-approved { color: #22c55e; }
+.text-rejected { color: #ef4444; }
+.text-review { color: #f59e0b; }

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BankFlow - Scoring History</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <h1 class="page-title">Scoring History</h1>
+
+        <div class="card history-card">
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Applicant</th>
+                        <th>Score</th>
+                        <th>Decision</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody id="history-rows"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        async function updateHistory() {
+            try {
+                const res = await fetch('/get_history');
+                const data = await res.json();
+
+                document.getElementById('history-rows').innerHTML = data.map(r => {
+                    const statusColor = r.decision === 'APPROVED' ? '#22c55e' 
+                        : r.decision === 'REJECTED' ? '#ef4444' 
+                        : '#f59e0b';
+                    return `
+                        <tr>
+                            <td style="padding: 15px 20px; color: #475569;">${r.name}</td>
+                            <td style="padding: 15px 20px; font-weight: 800; color: #1e293b;">${r.credit_score}</td>
+                            <td style="padding: 15px 20px; font-weight: 600; color: ${statusColor}; text-transform: uppercase; letter-spacing: 0.5px;">
+                                ${r.decision}
+                            </td>
+                            <td style="padding: 15px 20px; color: #64748b;">${new Date(r.created_at).toLocaleDateString()}</td>
+                        </tr>
+                    `;
+                }).join('');
+            } catch (err) {
+                console.error("Error fetching history:", err);
+            }
+        }
+
+        // Load history on page load
+        updateHistory();
+    </script>
+
+</body>
+</html>

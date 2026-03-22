@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BankFlow - Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <h1>Risk Assessment Overview</h1>
+
+        <div class="risk-legend">
+            <div class="legend-item" style="border-left-color: #22c55e;">
+                <h4>Excellent (750-900)</h4>
+                <p>Highest creditworthiness. Lowest interest rates guaranteed.</p>
+            </div>
+            <div class="legend-item" style="border-left-color: #f59e0b;">
+                <h4>Good / Fair (650-749)</h4>
+                <p>Reliable borrower. Standard market interest rates apply.</p>
+            </div>
+            <div class="legend-item" style="border-left-color: #ef4444;">
+                <h4>High Risk (300-649)</h4>
+                <p>High probability of default. Strict scrutiny or rejection.</p>
+            </div>
+        </div>
+
+        <h2 style="margin-top: 40px;">Frequently Asked Questions</h2>
+        <div class="faq-section">
+            <details>
+                <summary>1. What is Credit Score?</summary>
+                    <p> A Credit score is a 3-digit score highlighting your credit history and rating. Anything between 750 and 900 is considered a good Credit score and helps lenders and financial institutions to decide the associated risk and the creditworthiness of individuals seeking a loan or credit. </p>
+            </details>
+            <details>
+                <summary>2. Is CIBIL score the same as Credit Score?</summary>
+                    <p>The terms Credit Score' and 'CIBIL Score' are slightly different. The former is a general term that refers to the credit assessment score given by various credit rating agencies such as Experian, Equifax, Highmark, and others. CIBIL score is specifically provided by CIBIL [Credit Information Bureau (India) Limited]. </p>
+            </details>
+            <details>
+                <summary>3. Why should I check my Credit Score?</summary>
+                    <p><strong>Faster credit approval:</strong> Financial institutions/lenders check your credit score to examine your creditworthiness. A higher Credit Score is associated with a lower risk, accelerating the loan credit/loan approval process.</p>
+                    <p><strong>Lower interest rates:</strong> Lenders often offer lower interest rates for individuals with high Credit Scores.</p> 
+                    <p><strong>Higher credit limit:</strong> If your Credit Score is good, you might be eligible for a higher Credit Card limit or loan amount</p> 
+                    <p><strong>Hassle-free rent applications:</strong> When you rent a home, your tenant or a property agency may check your Credit Score to understand your financial track record. This may directly impact your chances of successfully renting a home.</p> 
+            </details>
+            <details>
+                <summary>4. What is the minimum Credit Score for a loan?</summary>
+                    <p> There is no minimum credit score for a loan. However, if you want to ensure that your loan application process is hassle-free, a Credit Score of 750 and above is generally considered good </p>
+            </details>
+            <details>
+                <summary>5. What is a good Credit Score for a Home Loan?</summary>
+                <p>In India, a Credit Score of more than 750 is considered reasonable if you want to apply for a Home Loan. However, some lenders may consider a slightly lower credit score, provided you have a good repayment history. </p>
+            </details>
+        </div>
+
+        <div style="margin-top:40px; text-align:center;">
+            <a href="/otp"><button style="width:300px;">Check Your Credit Score</button></a>
+        </div>
+    </div>
+
+</body>
+</html>

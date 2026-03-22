@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BankFlow - Credit Analysis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <h1>Predictive Assessment</h1>
+
+        <div class="grid-container">
+            <!-- INPUT CARD -->
+            <div class="card">
+                <div class="form-group">
+                    <label>Applicant Name</label>
+                    <input type="text" id="name" placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label>Annual Income ($)</label>
+                    <input type="number" id="income" placeholder="50000">
+                </div>
+                <div class="form-group">
+                    <label>Age</label>
+                    <input type="number" id="age" placeholder="30">
+                </div>
+                <div class="form-group">
+                    <label>Credit History (Months)</label>
+                    <input type="number" id="history" placeholder="24">
+                </div>
+                <div class="form-group">
+                    <label>Total Debt ($)</label>
+                    <input type="number" id="debt" placeholder="5000">
+                </div>
+                <button id="submitBtn" onclick="submitData()">Generate Visual Scorecard</button>
+            </div>
+
+            <!-- RESULT CARD -->
+            <div class="card result-container" id="res-card" style="display:none;">
+                <div id="decision-banner" class="decision-badge"></div>
+
+                <div class="visual-meter">
+                    <canvas id="scoreChart"></canvas>
+                    <div class="score-overlay">
+                        <h2 id="score-val"></h2>
+                        <p id="risk-status"></p>
+                    </div>
+                </div>
+
+                <div class="risk-scale-graphic">
+                    <div class="scale-bar">
+                        <div class="pointer" id="score-pointer"></div>
+                    </div>
+                    <div class="scale-labels">
+                        <span>300</span>
+                        <span>550</span>
+                        <span>750</span>
+                        <span>850</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top:40px; text-align:center;">
+            <a href="/history"><button style="width:300px;">Check Scoring History</button></a>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script>
+        let myChart;
+
+        async function submitData() {
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.innerText = "Analyzing Risk...";
+
+            const payload = {
+                name: document.getElementById('name').value,
+                income: parseFloat(document.getElementById('income').value),
+                age: parseInt(document.getElementById('age').value),
+                history_months: parseInt(document.getElementById('history').value),
+                debt: parseFloat(document.getElementById('debt').value)
+            };
+
+            try {
+                const res = await fetch('/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+
+                if (data.score) {
+                    document.getElementById('res-card').style.display = 'block';
+                    const banner = document.getElementById('decision-banner');
+                    banner.innerText = data.decision;
+                    banner.style.backgroundColor = data.color;
+                    document.getElementById('score-val').innerText = data.score;
+                    document.getElementById('score-val').style.color = data.color;
+                    document.getElementById('risk-status').innerText = data.status;
+                    const percent = ((data.score - 300) / 550) * 100;
+                    document.getElementById('score-pointer').style.left = percent + '%';
+                    drawChart(data.score, data.color);
+                }
+            } catch (err) {
+                alert("Error connecting to server.");
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "Generate Visual Scorecard";
+            }
+        }
+
+        function drawChart(score, color) {
+            const ctx = document.getElementById('scoreChart').getContext('2d');
+            if (myChart) myChart.destroy();
+            myChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [score - 300, 850 - score],
+                        backgroundColor: [color, '#f1f5f9']
+                    }]
+                },
+                options: {
+                    circumference: 180,
+                    rotation: 270,
+                    cutout: '85%',
+                    plugins: { tooltip: { enabled: false } }
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

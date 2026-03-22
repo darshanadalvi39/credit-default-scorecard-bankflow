@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BankFlow - OTP Verification</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div id="otp-screen">
+        <div class="card">
+            <h1>Verify Your Phone</h1>
+
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="text" id="phone" placeholder="Enter your phone number">
+            </div>
+
+            <button onclick="sendOtp()">Send OTP</button>
+
+            <div id="otp-section" style="display:none; margin-top:15px;">
+                <input type="text" id="otp" placeholder="Enter OTP">
+                <button onclick="verifyOtp()">Verify OTP</button>
+                <button onclick="sendOtp()" style="background:#64748b; margin-top:10px;">
+                    Resend OTP
+                </button>
+                <p id="otp-msg"></p>
+            </div>
+
+            <div id="proceed-section" style="display:none; margin-top:15px;">
+                <a href="/analysis"><button>Proceed to Form</button></a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function sendOtp() {
+            const phone = document.getElementById('phone').value;
+            if (!phone) {
+                alert("Enter phone number");
+                return;
+            }
+
+            const res = await fetch('/send_otp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ phone })
+            });
+
+            const data = await res.json();
+            document.getElementById('otp-section').style.display = 'block';
+            alert("OTP (demo): " + data.otp);
+        }
+
+        async function verifyOtp() {
+            const phone = document.getElementById('phone').value;
+            const otp = document.getElementById('otp').value;
+
+            const res = await fetch('/verify_otp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ phone, otp })
+            });
+
+            const data = await res.json();
+            const msg = document.getElementById('otp-msg');
+
+            if (data.success) {
+                msg.innerText = "OTP Verified ✅";
+                msg.style.color = "green";
+                document.getElementById('proceed-section').style.display = 'block';
+            } else {
+                msg.innerText = "Invalid OTP ❌";
+                msg.style.color = "red";
+            }
+        }
+    </script>
+
+</body>
+</html>
