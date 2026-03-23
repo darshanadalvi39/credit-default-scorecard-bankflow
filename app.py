@@ -3,16 +3,15 @@ from flask_mysqldb import MySQL
 from flask_cors import CORS
 import MySQLdb.cursors
 import random
-import os
 
 app = Flask(__name__)
 CORS(app)
 
 # --- DATABASE CONFIGURATION ---
-app.config['MYSQL_HOST'] = os.getenv('DB_HOST', '127.0.0.1')
-app.config['MYSQL_USER'] = os.getenv('DB_USER', 'root')
-app.config['MYSQL_PASSWORD'] = os.getenv('DB_PASSWORD', 'Rudra@2921')
-app.config['MYSQL_DB'] = os.getenv('DB_DB', 'banking_db')
+app.config['MYSQL_HOST'] = '127.0.0.1'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = 'Rudra@2921'
+app.config['MYSQL_DB'] = 'banking_db'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 mysql = MySQL(app)
